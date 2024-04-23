@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"testing"
 
-	"github.com/recurly/recurly-client-go/v4"
+	"github.com/fubotv/recurly-client-go"
 )
 
 func TestSubscriptionChangeCreate_AddOns(t *testing.T) {
