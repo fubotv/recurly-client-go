@@ -426,6 +426,15 @@ type ClientInterface interface {
 	CreatePendingPurchase(body *PurchaseCreate, opts ...Option) (*InvoiceCollection, error)
 	CreatePendingPurchaseWithContext(ctx context.Context, body *PurchaseCreate, opts ...Option) (*InvoiceCollection, error)
 
+	CreateAuthorizePurchase(body *PurchaseCreate, opts ...Option) (*InvoiceCollection, error)
+	CreateAuthorizePurchaseWithContext(ctx context.Context, body *PurchaseCreate, opts ...Option) (*InvoiceCollection, error)
+
+	CreateCapturePurchase(transactionId string, opts ...Option) (*InvoiceCollection, error)
+	CreateCapturePurchaseWithContext(ctx context.Context, transactionId string, opts ...Option) (*InvoiceCollection, error)
+
+	Cancelpurchase(transactionId string, opts ...Option) (*InvoiceCollection, error)
+	CancelpurchaseWithContext(ctx context.Context, transactionId string, opts ...Option) (*InvoiceCollection, error)
+
 	GetExportDates(opts ...Option) (*ExportDates, error)
 	GetExportDatesWithContext(ctx context.Context, opts ...Option) (*ExportDates, error)
 
@@ -6732,6 +6741,93 @@ func (c *Client) createPendingPurchase(ctx context.Context, body *PurchaseCreate
 	requestOptions := NewRequestOptions(opts...)
 	result := &InvoiceCollection{}
 	err = c.Call(ctx, http.MethodPost, path, body, nil, requestOptions, result)
+	if err != nil {
+		return nil, err
+	}
+	return result, err
+}
+
+// CreateAuthorizePurchase wraps CreateAuthorizePurchaseWithContext using the background context
+func (c *Client) CreateAuthorizePurchase(body *PurchaseCreate, opts ...Option) (*InvoiceCollection, error) {
+	ctx := context.Background()
+	return c.createAuthorizePurchase(ctx, body, opts...)
+}
+
+// CreateAuthorizePurchaseWithContext Authorize a purchase
+//
+// API Documentation: https://developers.recurly.com/api/v2021-02-25#operation/create_authorize_purchase
+//
+// Returns: Returns the authorize invoice
+func (c *Client) CreateAuthorizePurchaseWithContext(ctx context.Context, body *PurchaseCreate, opts ...Option) (*InvoiceCollection, error) {
+	return c.createAuthorizePurchase(ctx, body, opts...)
+}
+
+func (c *Client) createAuthorizePurchase(ctx context.Context, body *PurchaseCreate, opts ...Option) (*InvoiceCollection, error) {
+	path, err := c.InterpolatePath("/purchases/authorize")
+	if err != nil {
+		return nil, err
+	}
+	requestOptions := NewRequestOptions(opts...)
+	result := &InvoiceCollection{}
+	err = c.Call(ctx, http.MethodPost, path, body, nil, requestOptions, result)
+	if err != nil {
+		return nil, err
+	}
+	return result, err
+}
+
+// CreateCapturePurchase wraps CreateCapturePurchaseWithContext using the background context
+func (c *Client) CreateCapturePurchase(transactionId string, opts ...Option) (*InvoiceCollection, error) {
+	ctx := context.Background()
+	return c.createCapturePurchase(ctx, transactionId, opts...)
+}
+
+// CreateCapturePurchaseWithContext Capture a purchase
+//
+// API Documentation: https://developers.recurly.com/api/v2021-02-25#operation/create_capture_purchase
+//
+// Returns: Returns the captured invoice
+func (c *Client) CreateCapturePurchaseWithContext(ctx context.Context, transactionId string, opts ...Option) (*InvoiceCollection, error) {
+	return c.createCapturePurchase(ctx, transactionId, opts...)
+}
+
+func (c *Client) createCapturePurchase(ctx context.Context, transactionId string, opts ...Option) (*InvoiceCollection, error) {
+	path, err := c.InterpolatePath("/purchases/{transaction_id}/capture", transactionId)
+	if err != nil {
+		return nil, err
+	}
+	requestOptions := NewRequestOptions(opts...)
+	result := &InvoiceCollection{}
+	err = c.Call(ctx, http.MethodPost, path, nil, nil, requestOptions, result)
+	if err != nil {
+		return nil, err
+	}
+	return result, err
+}
+
+// Cancelpurchase wraps CancelpurchaseWithContext using the background context
+func (c *Client) Cancelpurchase(transactionId string, opts ...Option) (*InvoiceCollection, error) {
+	ctx := context.Background()
+	return c.cancelpurchase(ctx, transactionId, opts...)
+}
+
+// CancelpurchaseWithContext Cancel Purchase
+//
+// API Documentation: https://developers.recurly.com/api/v2021-02-25#operation/cancelPurchase
+//
+// Returns: Returns the cancelled invoice
+func (c *Client) CancelpurchaseWithContext(ctx context.Context, transactionId string, opts ...Option) (*InvoiceCollection, error) {
+	return c.cancelpurchase(ctx, transactionId, opts...)
+}
+
+func (c *Client) cancelpurchase(ctx context.Context, transactionId string, opts ...Option) (*InvoiceCollection, error) {
+	path, err := c.InterpolatePath("/purchases/{transaction_id}/cancel/", transactionId)
+	if err != nil {
+		return nil, err
+	}
+	requestOptions := NewRequestOptions(opts...)
+	result := &InvoiceCollection{}
+	err = c.Call(ctx, http.MethodPost, path, nil, nil, requestOptions, result)
 	if err != nil {
 		return nil, err
 	}
