@@ -81,4 +81,7 @@ type SubscriptionChangeCreate struct {
 
 	// The new set of ramp intervals for the subscription.
 	RampIntervals []SubscriptionRampInterval `json:"ramp_intervals,omitempty"`
+
+	// Allows you to control how any resulting charges and credits will be calculated and prorated.
+	ProrationSettings *ProrationSettings `json:"proration_settings,omitempty"`
 }
