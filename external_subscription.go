@@ -43,7 +43,7 @@ type ExternalSubscription struct {
 	// An indication of the quantity of a subscribed item's quantity.
 	Quantity int `json:"quantity,omitempty"`
 
-	// External subscriptions can be active, canceled, expired, or past_due.
+	// External subscriptions can be active, canceled, expired, past_due, voided, revoked, or paused.
 	State string `json:"state,omitempty"`
 
 	// When the external subscription was activated in the external platform.
