@@ -24,4 +24,7 @@ type InvoiceUpdate struct {
 	NetTerms *int `json:"net_terms,omitempty"`
 
 	Address *InvoiceAddressCreate `json:"address,omitempty"`
+
+	// An alphanumeric code shown per gateway on your site's payment gateways page. Set this code to ensure that a given invoice targets a given gateway.
+	GatewayCode *string `json:"gateway_code,omitempty"`
 }
