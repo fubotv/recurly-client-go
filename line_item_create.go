@@ -46,6 +46,21 @@ type LineItemCreate struct {
 	// Accounting Code for the `LineItem`. If `item_code`/`item_id` is part of the request then `accounting_code` must be absent.
 	AccountingCode *string `json:"accounting_code,omitempty"`
 
+	// The ID of a general ledger account. General ledger accounts are
+	// only accessible as a part of the Recurly RevRec Standard and
+	// Recurly RevRec Advanced features.
+	LiabilityGlAccountId *string `json:"liability_gl_account_id,omitempty"`
+
+	// The ID of a general ledger account. General ledger accounts are
+	// only accessible as a part of the Recurly RevRec Standard and
+	// Recurly RevRec Advanced features.
+	RevenueGlAccountId *string `json:"revenue_gl_account_id,omitempty"`
+
+	// The ID of a performance obligation. Performance obligations are
+	// only accessible as a part of the Recurly RevRec Standard and
+	// Recurly RevRec Advanced features.
+	PerformanceObligationId *string `json:"performance_obligation_id,omitempty"`
+
 	// `true` exempts tax on charges, `false` applies tax on charges. If not defined, then defaults to the Plan and Site settings. This attribute does not work for credits (negative line items). Credits are always applied post-tax. Pre-tax discounts should use the Coupons feature.
 	TaxExempt *bool `json:"tax_exempt,omitempty"`
 
@@ -72,4 +87,10 @@ type LineItemCreate struct {
 
 	// If this date is provided, it indicates the end of a time range.
 	EndDate *time.Time `json:"end_date,omitempty"`
+
+	// The source of the address that will be used as the origin in determining taxes. Available only when the site is on an Elite plan. A value of "origin" refers to the "Business entity tax address". A value of "destination" refers to the "Customer tax address".
+	OriginTaxAddressSource *string `json:"origin_tax_address_source,omitempty"`
+
+	// The source of the address that will be used as the destinaion in determining taxes. Available only when the site is on an Elite plan. A value of "destination" refers to the "Customer tax address". A value of "origin" refers to the "Business entity tax address".
+	DestinationTaxAddressSource *string `json:"destination_tax_address_source,omitempty"`
 }

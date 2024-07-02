@@ -32,6 +32,21 @@ type AddOnUpdate struct {
 	// Accounting code for invoice line items for this add-on. If no value is provided, it defaults to add-on's code. If an `Item` is associated to the `AddOn` then `accounting code` must be absent.
 	AccountingCode *string `json:"accounting_code,omitempty"`
 
+	// The ID of a general ledger account. General ledger accounts are
+	// only accessible as a part of the Recurly RevRec Standard and
+	// Recurly RevRec Advanced features.
+	LiabilityGlAccountId *string `json:"liability_gl_account_id,omitempty"`
+
+	// The ID of a general ledger account. General ledger accounts are
+	// only accessible as a part of the Recurly RevRec Standard and
+	// Recurly RevRec Advanced features.
+	RevenueGlAccountId *string `json:"revenue_gl_account_id,omitempty"`
+
+	// The ID of a performance obligation. Performance obligations are
+	// only accessible as a part of the Recurly RevRec Standard and
+	// Recurly RevRec Advanced features.
+	PerformanceObligationId *string `json:"performance_obligation_id,omitempty"`
+
 	// When this add-on is invoiced, the line item will use this revenue schedule. If `item_code`/`item_id` is part of the request then `revenue_schedule_type` must be absent in the request as the value will be set from the item.
 	RevenueScheduleType *string `json:"revenue_schedule_type,omitempty"`
 
@@ -67,7 +82,7 @@ type AddOnUpdate struct {
 	// `percentage_tiers` is an array of objects, which must have the set of tiers
 	// per currency and the currency code. The tier_type must be `volume` or `tiered`,
 	// if not, it must be absent. There must be one tier without an `ending_amount` value
-	// which represents the final tier.  This feature is currently in development and
+	// which represents the final tier. This feature is currently in development and
 	// requires approval and enablement, please contact support.
 	PercentageTiers []PercentageTiersByCurrencyCreate `json:"percentage_tiers,omitempty"`
 }

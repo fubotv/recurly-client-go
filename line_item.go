@@ -122,6 +122,21 @@ type LineItem struct {
 	// The discount applied to the line item.
 	Discount float64 `json:"discount,omitempty"`
 
+	// Unique code to identify the ledger account. Each code must start
+	// with a letter or number. The following special characters are
+	// allowed: `-_.,:`
+	LiabilityGlAccountCode string `json:"liability_gl_account_code,omitempty"`
+
+	// Unique code to identify the ledger account. Each code must start
+	// with a letter or number. The following special characters are
+	// allowed: `-_.,:`
+	RevenueGlAccountCode string `json:"revenue_gl_account_code,omitempty"`
+
+	// The ID of a performance obligation. Performance obligations are
+	// only accessible as a part of the Recurly RevRec Standard and
+	// Recurly RevRec Advanced features.
+	PerformanceObligationId string `json:"performance_obligation_id,omitempty"`
+
 	// The tax amount for the line item.
 	Tax float64 `json:"tax,omitempty"`
 
@@ -142,6 +157,12 @@ type LineItem struct {
 
 	// Only for merchants using Recurly's In-The-Box taxes.
 	TaxInfo TaxInfo `json:"tax_info,omitempty"`
+
+	// The source of the address that will be used as the origin in determining taxes. Available only when the site is on an Elite plan. A value of "origin" refers to the "Business entity tax address". A value of "destination" refers to the "Customer tax address".
+	OriginTaxAddressSource string `json:"origin_tax_address_source,omitempty"`
+
+	// The source of the address that will be used as the destinaion in determining taxes. Available only when the site is on an Elite plan. A value of "destination" refers to the "Customer tax address". A value of "origin" refers to the "Business entity tax address".
+	DestinationTaxAddressSource string `json:"destination_tax_address_source,omitempty"`
 
 	// When a line item has been prorated, this is the rate of the proration. Proration rates were made available for line items created after March 30, 2017. For line items created prior to that date, the proration rate will be `null`, even if the line item was prorated.
 	ProrationRate float64 `json:"proration_rate,omitempty"`
