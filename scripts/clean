@@ -36,6 +36,7 @@ rm -f credit_payment.go
 rm -f external_invoice.go
 rm -f external_subscription.go
 rm -f external_product_reference_mini.go
+rm -f external_payment_phase.go
 rm -f external_charge.go
 rm -f invoice.go
 rm -f invoice_address.go
@@ -60,6 +61,8 @@ rm -f subscription_ramp_interval_response.go
 rm -f unique_coupon_code_params.go
 rm -f unique_coupon_code.go
 rm -f custom_field_definition.go
+rm -f general_ledger_account.go
+rm -f performance_obligation.go
 rm -f item.go
 rm -f pricing.go
 rm -f measured_unit.go
@@ -87,7 +90,6 @@ rm -f dunning_cycle.go
 rm -f dunning_interval.go
 rm -f dunning_campaigns_bulk_update_response.go
 rm -f invoice_template.go
-rm -f external_payment_phase.go
 rm -f entitlements.go
 rm -f entitlement.go
 rm -f customer_permission.go
@@ -116,6 +118,8 @@ rm -f coupon_create.go
 rm -f coupon_pricing.go
 rm -f coupon_update.go
 rm -f coupon_bulk_create.go
+rm -f general_ledger_account_create.go
+rm -f general_ledger_account_update.go
 rm -f item_create.go
 rm -f pricing_create.go
 rm -f item_update.go

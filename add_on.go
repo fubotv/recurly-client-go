@@ -46,6 +46,21 @@ type AddOn struct {
 	// System-generated unique identifier for an measured unit associated with the add-on.
 	MeasuredUnitId string `json:"measured_unit_id,omitempty"`
 
+	// The ID of a general ledger account. General ledger accounts are
+	// only accessible as a part of the Recurly RevRec Standard and
+	// Recurly RevRec Advanced features.
+	LiabilityGlAccountId string `json:"liability_gl_account_id,omitempty"`
+
+	// The ID of a general ledger account. General ledger accounts are
+	// only accessible as a part of the Recurly RevRec Standard and
+	// Recurly RevRec Advanced features.
+	RevenueGlAccountId string `json:"revenue_gl_account_id,omitempty"`
+
+	// The ID of a performance obligation. Performance obligations are
+	// only accessible as a part of the Recurly RevRec Standard and
+	// Recurly RevRec Advanced features.
+	PerformanceObligationId string `json:"performance_obligation_id,omitempty"`
+
 	// Accounting code for invoice line items for this add-on. If no value is provided, it defaults to add-on's code.
 	AccountingCode string `json:"accounting_code,omitempty"`
 

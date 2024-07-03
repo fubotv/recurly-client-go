@@ -26,6 +26,21 @@ type ItemUpdate struct {
 	// Revenue schedule type
 	RevenueScheduleType *string `json:"revenue_schedule_type,omitempty"`
 
+	// The ID of a performance obligation. Performance obligations are
+	// only accessible as a part of the Recurly RevRec Standard and
+	// Recurly RevRec Advanced features.
+	PerformanceObligationId *string `json:"performance_obligation_id,omitempty"`
+
+	// The ID of a general ledger account. General ledger accounts are
+	// only accessible as a part of the Recurly RevRec Standard and
+	// Recurly RevRec Advanced features.
+	LiabilityGlAccountId *string `json:"liability_gl_account_id,omitempty"`
+
+	// The ID of a general ledger account. General ledger accounts are
+	// only accessible as a part of the Recurly RevRec Standard and
+	// Recurly RevRec Advanced features.
+	RevenueGlAccountId *string `json:"revenue_gl_account_id,omitempty"`
+
 	// Used by Avalara for Communications taxes. The transaction type in combination with the service type describe how the item is taxed. Refer to [the documentation](https://help.avalara.com/AvaTax_for_Communications/Tax_Calculation/AvaTax_for_Communications_Tax_Engine/Mapping_Resources/TM_00115_AFC_Modules_Corresponding_Transaction_Types) for more available t/s types.
 	AvalaraTransactionType *int `json:"avalara_transaction_type,omitempty"`
 
