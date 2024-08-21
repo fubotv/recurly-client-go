@@ -1,5 +1,16 @@
 # Changelog
 
+## [v4.54.0](https://github.com/recurly/recurly-client-go/tree/v4.54.0) (2024-08-21)
+
+[Full Changelog](https://github.com/recurly/recurly-client-go/compare/v4.53.0...v4.54.0)
+
+
+**Merged Pull Requests**
+
+- Generated Latest Changes for v2021-02-25 (Line Item Refunds)  [#222](https://github.com/recurly/recurly-client-go/pull/222) ([recurly-integrations](https://github.com/recurly-integrations))
+
+
+
 ## [v4.53.0](https://github.com/recurly/recurly-client-go/tree/v4.53.0) (2024-07-03)
 
 [Full Changelog](https://github.com/recurly/recurly-client-go/compare/v4.52.0...v4.53.0)
