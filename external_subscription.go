@@ -31,6 +31,9 @@ type ExternalSubscription struct {
 	// The id of the subscription in the external systems., I.e. Apple App Store or Google Play Store.
 	ExternalId string `json:"external_id,omitempty"`
 
+	// Universally Unique Identifier created automatically.
+	Uuid string `json:"uuid,omitempty"`
+
 	// When a new billing event occurred on the external subscription in conjunction with a recent billing period, reactivation or upgrade/downgrade.
 	LastPurchased time.Time `json:"last_purchased,omitempty"`
 
