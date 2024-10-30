@@ -112,4 +112,7 @@ type SubscriptionCreate struct {
 
 	// A gift card redemption code to be redeemed on the purchase invoice.
 	GiftCardRedemptionCode *string `json:"gift_card_redemption_code,omitempty"`
+
+	// Optional field to be used only when needing to bypass the 60 second limit on creating subscriptions. Should only be used when creating subscriptions in bulk from the API.
+	Bulk *bool `json:"bulk,omitempty"`
 }
