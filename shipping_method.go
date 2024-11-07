@@ -40,6 +40,21 @@ type ShippingMethod struct {
 	// - `NT` – Non-Taxable
 	TaxCode string `json:"tax_code,omitempty"`
 
+	// The ID of a general ledger account. General ledger accounts are
+	// only accessible as a part of the Recurly RevRec Standard and
+	// Recurly RevRec Advanced features.
+	LiabilityGlAccountId string `json:"liability_gl_account_id,omitempty"`
+
+	// The ID of a general ledger account. General ledger accounts are
+	// only accessible as a part of the Recurly RevRec Standard and
+	// Recurly RevRec Advanced features.
+	RevenueGlAccountId string `json:"revenue_gl_account_id,omitempty"`
+
+	// The ID of a performance obligation. Performance obligations are
+	// only accessible as a part of the Recurly RevRec Standard and
+	// Recurly RevRec Advanced features.
+	PerformanceObligationId string `json:"performance_obligation_id,omitempty"`
+
 	// Created at
 	CreatedAt time.Time `json:"created_at,omitempty"`
 

@@ -181,6 +181,22 @@ type ClientInterface interface {
 	GetCustomFieldDefinition(customFieldDefinitionId string, opts ...Option) (*CustomFieldDefinition, error)
 	GetCustomFieldDefinitionWithContext(ctx context.Context, customFieldDefinitionId string, opts ...Option) (*CustomFieldDefinition, error)
 
+	CreateGeneralLedgerAccount(body *GeneralLedgerAccountCreate, opts ...Option) (*GeneralLedgerAccount, error)
+	CreateGeneralLedgerAccountWithContext(ctx context.Context, body *GeneralLedgerAccountCreate, opts ...Option) (*GeneralLedgerAccount, error)
+
+	ListGeneralLedgerAccounts(params *ListGeneralLedgerAccountsParams, opts ...Option) (GeneralLedgerAccountLister, error)
+
+	GetGeneralLedgerAccount(generalLedgerAccountId string, opts ...Option) (*GeneralLedgerAccount, error)
+	GetGeneralLedgerAccountWithContext(ctx context.Context, generalLedgerAccountId string, opts ...Option) (*GeneralLedgerAccount, error)
+
+	UpdateGeneralLedgerAccount(generalLedgerAccountId string, body *GeneralLedgerAccountUpdate, opts ...Option) (*GeneralLedgerAccount, error)
+	UpdateGeneralLedgerAccountWithContext(ctx context.Context, generalLedgerAccountId string, body *GeneralLedgerAccountUpdate, opts ...Option) (*GeneralLedgerAccount, error)
+
+	GetPerformanceObligation(performanceObligationId string, opts ...Option) (*PerformanceObligation, error)
+	GetPerformanceObligationWithContext(ctx context.Context, performanceObligationId string, opts ...Option) (*PerformanceObligation, error)
+
+	GetPerformanceObligations(opts ...Option) (PerformanceObligationLister, error)
+
 	ListInvoiceTemplateAccounts(invoiceTemplateId string, params *ListInvoiceTemplateAccountsParams, opts ...Option) (AccountLister, error)
 
 	ListItems(params *ListItemsParams, opts ...Option) (ItemLister, error)
@@ -425,6 +441,15 @@ type ClientInterface interface {
 
 	CreatePendingPurchase(body *PurchaseCreate, opts ...Option) (*InvoiceCollection, error)
 	CreatePendingPurchaseWithContext(ctx context.Context, body *PurchaseCreate, opts ...Option) (*InvoiceCollection, error)
+
+	CreateAuthorizePurchase(body *PurchaseCreate, opts ...Option) (*InvoiceCollection, error)
+	CreateAuthorizePurchaseWithContext(ctx context.Context, body *PurchaseCreate, opts ...Option) (*InvoiceCollection, error)
+
+	CreateCapturePurchase(transactionId string, opts ...Option) (*InvoiceCollection, error)
+	CreateCapturePurchaseWithContext(ctx context.Context, transactionId string, opts ...Option) (*InvoiceCollection, error)
+
+	Cancelpurchase(transactionId string, opts ...Option) (*InvoiceCollection, error)
+	CancelpurchaseWithContext(ctx context.Context, transactionId string, opts ...Option) (*InvoiceCollection, error)
 
 	GetExportDates(opts ...Option) (*ExportDates, error)
 	GetExportDatesWithContext(ctx context.Context, opts ...Option) (*ExportDates, error)
@@ -3079,7 +3104,7 @@ func (c *Client) GetCustomFieldDefinition(customFieldDefinitionId string, opts .
 //
 // API Documentation: https://developers.recurly.com/api/v2021-02-25#operation/get_custom_field_definition
 //
-// Returns: An custom field definition.
+// Returns: A custom field definition.
 func (c *Client) GetCustomFieldDefinitionWithContext(ctx context.Context, customFieldDefinitionId string, opts ...Option) (*CustomFieldDefinition, error) {
 	return c.getCustomFieldDefinition(ctx, customFieldDefinitionId, opts...)
 }
@@ -3096,6 +3121,205 @@ func (c *Client) getCustomFieldDefinition(ctx context.Context, customFieldDefini
 		return nil, err
 	}
 	return result, err
+}
+
+// CreateGeneralLedgerAccount wraps CreateGeneralLedgerAccountWithContext using the background context
+func (c *Client) CreateGeneralLedgerAccount(body *GeneralLedgerAccountCreate, opts ...Option) (*GeneralLedgerAccount, error) {
+	ctx := context.Background()
+	return c.createGeneralLedgerAccount(ctx, body, opts...)
+}
+
+// CreateGeneralLedgerAccountWithContext Create a new general ledger account
+//
+// API Documentation: https://developers.recurly.com/api/v2021-02-25#operation/create_general_ledger_account
+//
+// Returns: A new general ledger account.
+func (c *Client) CreateGeneralLedgerAccountWithContext(ctx context.Context, body *GeneralLedgerAccountCreate, opts ...Option) (*GeneralLedgerAccount, error) {
+	return c.createGeneralLedgerAccount(ctx, body, opts...)
+}
+
+func (c *Client) createGeneralLedgerAccount(ctx context.Context, body *GeneralLedgerAccountCreate, opts ...Option) (*GeneralLedgerAccount, error) {
+	path, err := c.InterpolatePath("/general_ledger_accounts")
+	if err != nil {
+		return nil, err
+	}
+	requestOptions := NewRequestOptions(opts...)
+	result := &GeneralLedgerAccount{}
+	err = c.Call(ctx, http.MethodPost, path, body, nil, requestOptions, result)
+	if err != nil {
+		return nil, err
+	}
+	return result, err
+}
+
+type ListGeneralLedgerAccountsParams struct {
+
+	// Ids - Filter results by their IDs. Up to 200 IDs can be passed at once using
+	// commas as separators, e.g. `ids=h1at4d57xlmy,gyqgg0d3v9n1,jrsm5b4yefg6`.
+	// **Important notes:**
+	// * The `ids` parameter cannot be used with any other ordering or filtering
+	//   parameters (`limit`, `order`, `sort`, `begin_time`, `end_time`, etc)
+	// * Invalid or unknown IDs will be ignored, so you should check that the
+	//   results correspond to your request.
+	// * Records are returned in an arbitrary order. Since results are all
+	//   returned at once you can sort the records yourself.
+	Ids []string
+
+	// Limit - Limit number of records 1-200.
+	Limit *int
+
+	// Order - Sort order.
+	Order *string
+
+	// Sort - Sort field. You *really* only want to sort by `updated_at` in ascending
+	// order. In descending order updated records will move behind the cursor and could
+	// prevent some records from being returned.
+	Sort *string
+
+	// AccountType - General Ledger Account type by which to filter the response.
+	AccountType *string
+}
+
+func (list *ListGeneralLedgerAccountsParams) URLParams() []KeyValue {
+	var options []KeyValue
+
+	if list.Ids != nil {
+		options = append(options, KeyValue{Key: "ids", Value: strings.Join(list.Ids, ",")})
+	}
+
+	if list.Limit != nil {
+		options = append(options, KeyValue{Key: "limit", Value: strconv.Itoa(*list.Limit)})
+	}
+
+	if list.Order != nil {
+		options = append(options, KeyValue{Key: "order", Value: *list.Order})
+	}
+
+	if list.Sort != nil {
+		options = append(options, KeyValue{Key: "sort", Value: *list.Sort})
+	}
+
+	if list.AccountType != nil {
+		options = append(options, KeyValue{Key: "account_type", Value: *list.AccountType})
+	}
+
+	return options
+}
+
+// ListGeneralLedgerAccounts List a site's general ledger accounts
+//
+// API Documentation: https://developers.recurly.com/api/v2021-02-25#operation/list_general_ledger_accounts
+//
+// Returns: A list of the site's general ledger accounts.
+func (c *Client) ListGeneralLedgerAccounts(params *ListGeneralLedgerAccountsParams, opts ...Option) (GeneralLedgerAccountLister, error) {
+	path, err := c.InterpolatePath("/general_ledger_accounts")
+	if err != nil {
+		return nil, err
+	}
+	requestOptions := NewRequestOptions(opts...)
+	path = BuildURL(path, params)
+	return NewGeneralLedgerAccountList(c, path, requestOptions), nil
+}
+
+// GetGeneralLedgerAccount wraps GetGeneralLedgerAccountWithContext using the background context
+func (c *Client) GetGeneralLedgerAccount(generalLedgerAccountId string, opts ...Option) (*GeneralLedgerAccount, error) {
+	ctx := context.Background()
+	return c.getGeneralLedgerAccount(ctx, generalLedgerAccountId, opts...)
+}
+
+// GetGeneralLedgerAccountWithContext Fetch a general ledger account
+//
+// API Documentation: https://developers.recurly.com/api/v2021-02-25#operation/get_general_ledger_account
+//
+// Returns: A general ledger account.
+func (c *Client) GetGeneralLedgerAccountWithContext(ctx context.Context, generalLedgerAccountId string, opts ...Option) (*GeneralLedgerAccount, error) {
+	return c.getGeneralLedgerAccount(ctx, generalLedgerAccountId, opts...)
+}
+
+func (c *Client) getGeneralLedgerAccount(ctx context.Context, generalLedgerAccountId string, opts ...Option) (*GeneralLedgerAccount, error) {
+	path, err := c.InterpolatePath("/general_ledger_accounts/{general_ledger_account_id}", generalLedgerAccountId)
+	if err != nil {
+		return nil, err
+	}
+	requestOptions := NewRequestOptions(opts...)
+	result := &GeneralLedgerAccount{}
+	err = c.Call(ctx, http.MethodGet, path, nil, nil, requestOptions, result)
+	if err != nil {
+		return nil, err
+	}
+	return result, err
+}
+
+// UpdateGeneralLedgerAccount wraps UpdateGeneralLedgerAccountWithContext using the background context
+func (c *Client) UpdateGeneralLedgerAccount(generalLedgerAccountId string, body *GeneralLedgerAccountUpdate, opts ...Option) (*GeneralLedgerAccount, error) {
+	ctx := context.Background()
+	return c.updateGeneralLedgerAccount(ctx, generalLedgerAccountId, body, opts...)
+}
+
+// UpdateGeneralLedgerAccountWithContext Update a general ledger account
+//
+// API Documentation: https://developers.recurly.com/api/v2021-02-25#operation/update_general_ledger_account
+//
+// Returns: The updated general ledger account.
+func (c *Client) UpdateGeneralLedgerAccountWithContext(ctx context.Context, generalLedgerAccountId string, body *GeneralLedgerAccountUpdate, opts ...Option) (*GeneralLedgerAccount, error) {
+	return c.updateGeneralLedgerAccount(ctx, generalLedgerAccountId, body, opts...)
+}
+
+func (c *Client) updateGeneralLedgerAccount(ctx context.Context, generalLedgerAccountId string, body *GeneralLedgerAccountUpdate, opts ...Option) (*GeneralLedgerAccount, error) {
+	path, err := c.InterpolatePath("/general_ledger_accounts/{general_ledger_account_id}", generalLedgerAccountId)
+	if err != nil {
+		return nil, err
+	}
+	requestOptions := NewRequestOptions(opts...)
+	result := &GeneralLedgerAccount{}
+	err = c.Call(ctx, http.MethodPut, path, body, nil, requestOptions, result)
+	if err != nil {
+		return nil, err
+	}
+	return result, err
+}
+
+// GetPerformanceObligation wraps GetPerformanceObligationWithContext using the background context
+func (c *Client) GetPerformanceObligation(performanceObligationId string, opts ...Option) (*PerformanceObligation, error) {
+	ctx := context.Background()
+	return c.getPerformanceObligation(ctx, performanceObligationId, opts...)
+}
+
+// GetPerformanceObligationWithContext Get a single Performance Obligation.
+//
+// API Documentation: https://developers.recurly.com/api/v2021-02-25#operation/get_performance_obligation
+//
+// Returns: A single Performance Obligation.
+func (c *Client) GetPerformanceObligationWithContext(ctx context.Context, performanceObligationId string, opts ...Option) (*PerformanceObligation, error) {
+	return c.getPerformanceObligation(ctx, performanceObligationId, opts...)
+}
+
+func (c *Client) getPerformanceObligation(ctx context.Context, performanceObligationId string, opts ...Option) (*PerformanceObligation, error) {
+	path, err := c.InterpolatePath("/performance_obligations/{performance_obligation_id}", performanceObligationId)
+	if err != nil {
+		return nil, err
+	}
+	requestOptions := NewRequestOptions(opts...)
+	result := &PerformanceObligation{}
+	err = c.Call(ctx, http.MethodGet, path, nil, nil, requestOptions, result)
+	if err != nil {
+		return nil, err
+	}
+	return result, err
+}
+
+// GetPerformanceObligations Get a site's Performance Obligations
+//
+// API Documentation: https://developers.recurly.com/api/v2021-02-25#operation/get_performance_obligations
+//
+// Returns: A list of Performance Obligations.
+func (c *Client) GetPerformanceObligations(opts ...Option) (PerformanceObligationLister, error) {
+	path, err := c.InterpolatePath("/performance_obligations")
+	if err != nil {
+		return nil, err
+	}
+	requestOptions := NewRequestOptions(opts...)
+	return NewPerformanceObligationList(c, path, requestOptions), nil
 }
 
 type ListInvoiceTemplateAccountsParams struct {
@@ -6738,6 +6962,93 @@ func (c *Client) createPendingPurchase(ctx context.Context, body *PurchaseCreate
 	return result, err
 }
 
+// CreateAuthorizePurchase wraps CreateAuthorizePurchaseWithContext using the background context
+func (c *Client) CreateAuthorizePurchase(body *PurchaseCreate, opts ...Option) (*InvoiceCollection, error) {
+	ctx := context.Background()
+	return c.createAuthorizePurchase(ctx, body, opts...)
+}
+
+// CreateAuthorizePurchaseWithContext Authorize a purchase
+//
+// API Documentation: https://developers.recurly.com/api/v2021-02-25#operation/create_authorize_purchase
+//
+// Returns: Returns the authorize invoice
+func (c *Client) CreateAuthorizePurchaseWithContext(ctx context.Context, body *PurchaseCreate, opts ...Option) (*InvoiceCollection, error) {
+	return c.createAuthorizePurchase(ctx, body, opts...)
+}
+
+func (c *Client) createAuthorizePurchase(ctx context.Context, body *PurchaseCreate, opts ...Option) (*InvoiceCollection, error) {
+	path, err := c.InterpolatePath("/purchases/authorize")
+	if err != nil {
+		return nil, err
+	}
+	requestOptions := NewRequestOptions(opts...)
+	result := &InvoiceCollection{}
+	err = c.Call(ctx, http.MethodPost, path, body, nil, requestOptions, result)
+	if err != nil {
+		return nil, err
+	}
+	return result, err
+}
+
+// CreateCapturePurchase wraps CreateCapturePurchaseWithContext using the background context
+func (c *Client) CreateCapturePurchase(transactionId string, opts ...Option) (*InvoiceCollection, error) {
+	ctx := context.Background()
+	return c.createCapturePurchase(ctx, transactionId, opts...)
+}
+
+// CreateCapturePurchaseWithContext Capture a purchase
+//
+// API Documentation: https://developers.recurly.com/api/v2021-02-25#operation/create_capture_purchase
+//
+// Returns: Returns the captured invoice
+func (c *Client) CreateCapturePurchaseWithContext(ctx context.Context, transactionId string, opts ...Option) (*InvoiceCollection, error) {
+	return c.createCapturePurchase(ctx, transactionId, opts...)
+}
+
+func (c *Client) createCapturePurchase(ctx context.Context, transactionId string, opts ...Option) (*InvoiceCollection, error) {
+	path, err := c.InterpolatePath("/purchases/{transaction_id}/capture", transactionId)
+	if err != nil {
+		return nil, err
+	}
+	requestOptions := NewRequestOptions(opts...)
+	result := &InvoiceCollection{}
+	err = c.Call(ctx, http.MethodPost, path, nil, nil, requestOptions, result)
+	if err != nil {
+		return nil, err
+	}
+	return result, err
+}
+
+// Cancelpurchase wraps CancelpurchaseWithContext using the background context
+func (c *Client) Cancelpurchase(transactionId string, opts ...Option) (*InvoiceCollection, error) {
+	ctx := context.Background()
+	return c.cancelpurchase(ctx, transactionId, opts...)
+}
+
+// CancelpurchaseWithContext Cancel Purchase
+//
+// API Documentation: https://developers.recurly.com/api/v2021-02-25#operation/cancelPurchase
+//
+// Returns: Returns the cancelled invoice
+func (c *Client) CancelpurchaseWithContext(ctx context.Context, transactionId string, opts ...Option) (*InvoiceCollection, error) {
+	return c.cancelpurchase(ctx, transactionId, opts...)
+}
+
+func (c *Client) cancelpurchase(ctx context.Context, transactionId string, opts ...Option) (*InvoiceCollection, error) {
+	path, err := c.InterpolatePath("/purchases/{transaction_id}/cancel/", transactionId)
+	if err != nil {
+		return nil, err
+	}
+	requestOptions := NewRequestOptions(opts...)
+	result := &InvoiceCollection{}
+	err = c.Call(ctx, http.MethodPost, path, nil, nil, requestOptions, result)
+	if err != nil {
+		return nil, err
+	}
+	return result, err
+}
+
 // GetExportDates wraps GetExportDatesWithContext using the background context
 func (c *Client) GetExportDates(opts ...Option) (*ExportDates, error) {
 	ctx := context.Background()
@@ -7078,11 +7389,11 @@ func (c *Client) GetExternalSubscriptionExternalPaymentPhase(externalSubscriptio
 	return c.getExternalSubscriptionExternalPaymentPhase(ctx, externalSubscriptionId, externalPaymentPhaseId, opts...)
 }
 
-// GetExternalSubscriptionExternalPaymentPhaseWithContext Fetch an external payment_phase
+// GetExternalSubscriptionExternalPaymentPhaseWithContext Fetch an external payment phase
 //
 // API Documentation: https://developers.recurly.com/api/v2021-02-25#operation/get_external_subscription_external_payment_phase
 //
-// Returns: Details for an external payment_phase.
+// Returns: Details for an external payment phase.
 func (c *Client) GetExternalSubscriptionExternalPaymentPhaseWithContext(ctx context.Context, externalSubscriptionId string, externalPaymentPhaseId string, opts ...Option) (*ExternalPaymentPhase, error) {
 	return c.getExternalSubscriptionExternalPaymentPhase(ctx, externalSubscriptionId, externalPaymentPhaseId, opts...)
 }

@@ -8,7 +8,7 @@ import ()
 
 type AddOnCreate struct {
 
-	// Unique code to identify an item. Available when the `Credit Invoices` feature are enabled. If `item_id` and `item_code` are both present, `item_id` will be used.
+	// Unique code to identify an item. Available when the `Credit Invoices` feature is enabled. If `item_id` and `item_code` are both present, `item_id` will be used.
 	ItemCode *string `json:"item_code,omitempty"`
 
 	// System-generated unique identifier for an item. Available when the `Credit Invoices` feature is enabled. If `item_id` and `item_code` are both present, `item_id` will be used.
@@ -43,6 +43,21 @@ type AddOnCreate struct {
 	// Plan ID
 	PlanId *string `json:"plan_id,omitempty"`
 
+	// The ID of a general ledger account. General ledger accounts are
+	// only accessible as a part of the Recurly RevRec Standard and
+	// Recurly RevRec Advanced features.
+	LiabilityGlAccountId *string `json:"liability_gl_account_id,omitempty"`
+
+	// The ID of a general ledger account. General ledger accounts are
+	// only accessible as a part of the Recurly RevRec Standard and
+	// Recurly RevRec Advanced features.
+	RevenueGlAccountId *string `json:"revenue_gl_account_id,omitempty"`
+
+	// The ID of a performance obligation. Performance obligations are
+	// only accessible as a part of the Recurly RevRec Standard and
+	// Recurly RevRec Advanced features.
+	PerformanceObligationId *string `json:"performance_obligation_id,omitempty"`
+
 	// Accounting code for invoice line items for this add-on. If no value is provided, it defaults to add-on's code. If `item_code`/`item_id` is part of the request then `accounting_code` must be absent.
 	AccountingCode *string `json:"accounting_code,omitempty"`
 
@@ -64,11 +79,11 @@ type AddOnCreate struct {
 	// Used by Avalara for Communications taxes. The transaction type in combination with the service type describe how the add-on is taxed. Refer to [the documentation](https://help.avalara.com/AvaTax_for_Communications/Tax_Calculation/AvaTax_for_Communications_Tax_Engine/Mapping_Resources/TM_00115_AFC_Modules_Corresponding_Transaction_Types) for more available t/s types. If an `Item` is associated to the `AddOn`, then the `avalara_service_type` must be absent.
 	AvalaraServiceType *int `json:"avalara_service_type,omitempty"`
 
-	// Optional field used by Avalara, Vertex, and Recurly's EU VAT tax feature to determine taxation rules. If you have your own AvaTax or Vertex account configured, use their tax codes to assign specific tax rules. If you are using Recurly's EU VAT feature, you can use values of `unknown`, `physical`, or `digital`. If `item_code`/`item_id` is part of the request then `tax_code` must be absent.
+	// Optional field used by Avalara, Vertex, and Recurly's In-the-Box tax solution to determine taxation rules. You can pass in specific tax codes using any of these tax integrations. For Recurly's In-the-Box tax offering you can also choose to instead use simple values of `unknown`, `physical`, or `digital` tax codes. If `item_code`/`item_id` is part of the request then `tax_code` must be absent.
 	TaxCode *string `json:"tax_code,omitempty"`
 
 	// * If `item_code`/`item_id` is part of the request and the item
-	// has a default currency then `currencies` is optional. If the item does
+	// has a default currency, then `currencies` is optional. If the item does
 	// not have a default currency, then `currencies` is required. If `item_code`/`item_id`
 	// is not present `currencies` is required.
 	// * If the add-on's `tier_type` is `tiered`, `volume`, or `stairstep`,

@@ -102,7 +102,6 @@ type SubscriptionCreate struct {
 	// Optionally supplied string that may be either `net` or `eom` (end-of-month).
 	// When `net`, an invoice becomes past due the specified number of `Net Terms` days from the current date.
 	// When `eom` an invoice becomes past due the specified number of `Net Terms` days from the last day of the current month.
-	// This field is only available when the EOM Net Terms feature is enabled.
 	NetTermsType *string `json:"net_terms_type,omitempty"`
 
 	// If present, this subscription's transactions will use the payment gateway with this code.
@@ -113,4 +112,7 @@ type SubscriptionCreate struct {
 
 	// A gift card redemption code to be redeemed on the purchase invoice.
 	GiftCardRedemptionCode *string `json:"gift_card_redemption_code,omitempty"`
+
+	// Optional field to be used only when needing to bypass the 60 second limit on creating subscriptions. Should only be used when creating subscriptions in bulk from the API.
+	Bulk *bool `json:"bulk,omitempty"`
 }

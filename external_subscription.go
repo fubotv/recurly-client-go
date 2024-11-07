@@ -25,8 +25,14 @@ type ExternalSubscription struct {
 	// External Product Reference details
 	ExternalProductReference ExternalProductReferenceMini `json:"external_product_reference,omitempty"`
 
+	// The phases of the external subscription payment lifecycle.
+	ExternalPaymentPhases []ExternalPaymentPhase `json:"external_payment_phases,omitempty"`
+
 	// The id of the subscription in the external systems., I.e. Apple App Store or Google Play Store.
 	ExternalId string `json:"external_id,omitempty"`
+
+	// Universally Unique Identifier created automatically.
+	Uuid string `json:"uuid,omitempty"`
 
 	// When a new billing event occurred on the external subscription in conjunction with a recent billing period, reactivation or upgrade/downgrade.
 	LastPurchased time.Time `json:"last_purchased,omitempty"`
@@ -43,7 +49,7 @@ type ExternalSubscription struct {
 	// An indication of the quantity of a subscribed item's quantity.
 	Quantity int `json:"quantity,omitempty"`
 
-	// External subscriptions can be active, canceled, expired, or past_due.
+	// External subscriptions can be active, canceled, expired, past_due, voided, revoked, or paused.
 	State string `json:"state,omitempty"`
 
 	// When the external subscription was activated in the external platform.
@@ -63,6 +69,9 @@ type ExternalSubscription struct {
 
 	// An indication of whether or not the external subscription was purchased in a sandbox environment.
 	Test bool `json:"test,omitempty"`
+
+	// An indication of whether or not the external subscription was created by a historical data import.
+	Imported bool `json:"imported,omitempty"`
 
 	// When the external subscription was created in Recurly.
 	CreatedAt time.Time `json:"created_at,omitempty"`

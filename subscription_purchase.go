@@ -57,4 +57,7 @@ type SubscriptionPurchase struct {
 
 	// The new set of ramp intervals for the subscription.
 	RampIntervals []SubscriptionRampInterval `json:"ramp_intervals,omitempty"`
+
+	// Optional field to be used only when needing to bypass the 60 second limit on creating subscriptions. Should only be used when creating subscriptions in bulk from the API.
+	Bulk *bool `json:"bulk,omitempty"`
 }

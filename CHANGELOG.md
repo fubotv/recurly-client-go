@@ -1,5 +1,93 @@
 # Changelog
 
+## [v4.56.0](https://github.com/recurly/recurly-client-go/tree/v4.56.0) (2024-10-30)
+
+[Full Changelog](https://github.com/recurly/recurly-client-go/compare/v4.55.0...v4.56.0)
+
+
+**Merged Pull Requests**
+
+- Adds bulk parameter to SubscriptionCreate and SubscriptionPurchase [#224](https://github.com/recurly/recurly-client-go/pull/224) ([recurly-integrations](https://github.com/recurly-integrations))
+
+
+
+## [v4.55.0](https://github.com/recurly/recurly-client-go/tree/v4.55.0) (2024-08-28)
+
+[Full Changelog](https://github.com/recurly/recurly-client-go/compare/v4.54.0...v4.55.0)
+
+
+**Merged Pull Requests**
+
+- Generated Latest Changes for v2021-02-25 (add UUID External Subscriptions) [#223](https://github.com/recurly/recurly-client-go/pull/223) ([recurly-integrations](https://github.com/recurly-integrations))
+
+
+
+## [v4.54.0](https://github.com/recurly/recurly-client-go/tree/v4.54.0) (2024-08-21)
+
+[Full Changelog](https://github.com/recurly/recurly-client-go/compare/v4.53.0...v4.54.0)
+
+
+**Merged Pull Requests**
+
+- Generated Latest Changes for v2021-02-25 (Line Item Refunds)  [#222](https://github.com/recurly/recurly-client-go/pull/222) ([recurly-integrations](https://github.com/recurly-integrations))
+
+
+
+## [v4.53.0](https://github.com/recurly/recurly-client-go/tree/v4.53.0) (2024-07-03)
+
+[Full Changelog](https://github.com/recurly/recurly-client-go/compare/v4.52.0...v4.53.0)
+
+
+**Merged Pull Requests**
+
+- Generated Latest Changes for v2021-02-25 (Taxable Address Control, RevRec) [#220](https://github.com/recurly/recurly-client-go/pull/220) ([recurly-integrations](https://github.com/recurly-integrations))
+
+
+
+## [v4.52.0](https://github.com/recurly/recurly-client-go/tree/v4.52.0) (2024-05-31)
+
+[Full Changelog](https://github.com/recurly/recurly-client-go/compare/v4.51.0...v4.52.0)
+
+
+**Merged Pull Requests**
+
+- Generated Latest Changes for v2021-02-25 [#219](https://github.com/recurly/recurly-client-go/pull/219) ([recurly-integrations](https://github.com/recurly-integrations))
+
+
+
+## [v4.51.0](https://github.com/recurly/recurly-client-go/tree/v4.51.0) (2024-05-24)
+
+[Full Changelog](https://github.com/recurly/recurly-client-go/compare/v4.50.0...v4.51.0)
+
+
+**Merged Pull Requests**
+
+- Generated Latest Changes for v2021-02-25 (Entity Use Code) [#217](https://github.com/recurly/recurly-client-go/pull/217) ([recurly-integrations](https://github.com/recurly-integrations))
+
+
+
+## [v4.50.0](https://github.com/recurly/recurly-client-go/tree/v4.50.0) (2024-05-08)
+
+[Full Changelog](https://github.com/recurly/recurly-client-go/compare/v4.49.0...v4.50.0)
+
+
+**Merged Pull Requests**
+
+- Generated Latest Changes for v2021-02-25 (Proration Settings) [#216](https://github.com/recurly/recurly-client-go/pull/216) ([recurly-integrations](https://github.com/recurly-integrations))
+
+
+
+## [v4.49.0](https://github.com/recurly/recurly-client-go/tree/v4.49.0) (2024-05-01)
+
+[Full Changelog](https://github.com/recurly/recurly-client-go/compare/v4.48.0...v4.49.0)
+
+
+**Merged Pull Requests**
+
+- Generated Latest Changes for v2021-02-25 (Auth & Capture) [#215](https://github.com/recurly/recurly-client-go/pull/215) ([recurly-integrations](https://github.com/recurly-integrations))
+
+
+
 ## [v4.48.0](https://github.com/recurly/recurly-client-go/tree/v4.48.0) (2024-03-19)
 
 [Full Changelog](https://github.com/recurly/recurly-client-go/compare/v4.47.0...v4.48.0)

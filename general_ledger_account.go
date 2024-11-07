@@ -10,90 +10,72 @@ import (
 	"time"
 )
 
-type ExternalPaymentPhase struct {
+type GeneralLedgerAccount struct {
 	recurlyResponse *ResponseMetadata
 
-	// System-generated unique identifier for an external payment phase ID, e.g. `e28zov4fw0v2`.
+	// The ID of a general ledger account. General ledger accounts are
+	// only accessible as a part of the Recurly RevRec Standard and
+	// Recurly RevRec Advanced features.
 	Id string `json:"id,omitempty"`
 
 	// Object type
 	Object string `json:"object,omitempty"`
 
-	// Started At
-	StartedAt time.Time `json:"started_at,omitempty"`
+	// Unique code to identify the ledger account. Each code must start
+	// with a letter or number. The following special characters are
+	// allowed: `-_.,:`
+	Code string `json:"code,omitempty"`
 
-	// Ends At
-	EndsAt time.Time `json:"ends_at,omitempty"`
+	// Optional description.
+	Description string `json:"description,omitempty"`
 
-	// Starting Billing Period Index
-	StartingBillingPeriodIndex int `json:"starting_billing_period_index,omitempty"`
+	AccountType string `json:"account_type,omitempty"`
 
-	// Ending Billing Period Index
-	EndingBillingPeriodIndex int `json:"ending_billing_period_index,omitempty"`
-
-	// Type of discount offer given, e.g. "FREE_TRIAL"
-	OfferType string `json:"offer_type,omitempty"`
-
-	// Name of the discount offer given, e.g. "introductory"
-	OfferName string `json:"offer_name,omitempty"`
-
-	// Number of billing periods
-	PeriodCount int `json:"period_count,omitempty"`
-
-	// Billing cycle length
-	PeriodLength string `json:"period_length,omitempty"`
-
-	// Allows up to 9 decimal places
-	Amount string `json:"amount,omitempty"`
-
-	// 3-letter ISO 4217 currency code.
-	Currency string `json:"currency,omitempty"`
-
-	// When the external subscription was created in Recurly.
+	// Created at
 	CreatedAt time.Time `json:"created_at,omitempty"`
 
-	// When the external subscription was updated in Recurly.
+	// Last updated at
 	UpdatedAt time.Time `json:"updated_at,omitempty"`
 }
 
 // GetResponse returns the ResponseMetadata that generated this resource
-func (resource *ExternalPaymentPhase) GetResponse() *ResponseMetadata {
+func (resource *GeneralLedgerAccount) GetResponse() *ResponseMetadata {
 	return resource.recurlyResponse
 }
 
 // setResponse sets the ResponseMetadata that generated this resource
-func (resource *ExternalPaymentPhase) setResponse(res *ResponseMetadata) {
+func (resource *GeneralLedgerAccount) setResponse(res *ResponseMetadata) {
 	resource.recurlyResponse = res
 }
 
 // internal struct for deserializing accounts
-type externalPaymentPhaseList struct {
+type generalLedgerAccountList struct {
 	ListMetadata
-	Data            []ExternalPaymentPhase `json:"data"`
+	Data            []GeneralLedgerAccount `json:"data"`
 	recurlyResponse *ResponseMetadata
 }
 
 // GetResponse returns the ResponseMetadata that generated this resource
-func (resource *externalPaymentPhaseList) GetResponse() *ResponseMetadata {
+func (resource *generalLedgerAccountList) GetResponse() *ResponseMetadata {
 	return resource.recurlyResponse
 }
 
 // setResponse sets the ResponseMetadata that generated this resource
-func (resource *externalPaymentPhaseList) setResponse(res *ResponseMetadata) {
+func (resource *generalLedgerAccountList) setResponse(res *ResponseMetadata) {
 	resource.recurlyResponse = res
 }
 
-// ExternalPaymentPhaseList allows you to paginate ExternalPaymentPhase objects
-type ExternalPaymentPhaseList struct {
+// GeneralLedgerAccountList allows you to paginate GeneralLedgerAccount objects
+type GeneralLedgerAccountList struct {
 	client         HTTPCaller
 	requestOptions *RequestOptions
 	nextPagePath   string
 	hasMore        bool
-	data           []ExternalPaymentPhase
+	data           []GeneralLedgerAccount
 }
 
-func NewExternalPaymentPhaseList(client HTTPCaller, nextPagePath string, requestOptions *RequestOptions) *ExternalPaymentPhaseList {
-	return &ExternalPaymentPhaseList{
+func NewGeneralLedgerAccountList(client HTTPCaller, nextPagePath string, requestOptions *RequestOptions) *GeneralLedgerAccountList {
+	return &GeneralLedgerAccountList{
 		client:         client,
 		requestOptions: requestOptions,
 		nextPagePath:   nextPagePath,
@@ -101,31 +83,31 @@ func NewExternalPaymentPhaseList(client HTTPCaller, nextPagePath string, request
 	}
 }
 
-type ExternalPaymentPhaseLister interface {
+type GeneralLedgerAccountLister interface {
 	Fetch() error
 	FetchWithContext(ctx context.Context) error
 	Count() (*int64, error)
 	CountWithContext(ctx context.Context) (*int64, error)
-	Data() []ExternalPaymentPhase
+	Data() []GeneralLedgerAccount
 	HasMore() bool
 	Next() string
 }
 
-func (list *ExternalPaymentPhaseList) HasMore() bool {
+func (list *GeneralLedgerAccountList) HasMore() bool {
 	return list.hasMore
 }
 
-func (list *ExternalPaymentPhaseList) Next() string {
+func (list *GeneralLedgerAccountList) Next() string {
 	return list.nextPagePath
 }
 
-func (list *ExternalPaymentPhaseList) Data() []ExternalPaymentPhase {
+func (list *GeneralLedgerAccountList) Data() []GeneralLedgerAccount {
 	return list.data
 }
 
 // Fetch fetches the next page of data into the `Data` property
-func (list *ExternalPaymentPhaseList) FetchWithContext(ctx context.Context) error {
-	resources := &externalPaymentPhaseList{}
+func (list *GeneralLedgerAccountList) FetchWithContext(ctx context.Context) error {
+	resources := &generalLedgerAccountList{}
 	err := list.client.Call(ctx, http.MethodGet, list.nextPagePath, nil, nil, list.requestOptions, resources)
 	if err != nil {
 		return err
@@ -138,13 +120,13 @@ func (list *ExternalPaymentPhaseList) FetchWithContext(ctx context.Context) erro
 }
 
 // Fetch fetches the next page of data into the `Data` property
-func (list *ExternalPaymentPhaseList) Fetch() error {
+func (list *GeneralLedgerAccountList) Fetch() error {
 	return list.FetchWithContext(context.Background())
 }
 
 // Count returns the count of items on the server that match this pager
-func (list *ExternalPaymentPhaseList) CountWithContext(ctx context.Context) (*int64, error) {
-	resources := &externalPaymentPhaseList{}
+func (list *GeneralLedgerAccountList) CountWithContext(ctx context.Context) (*int64, error) {
+	resources := &generalLedgerAccountList{}
 	err := list.client.Call(ctx, http.MethodHead, list.nextPagePath, nil, nil, list.requestOptions, resources)
 	if err != nil {
 		return nil, err
@@ -154,6 +136,6 @@ func (list *ExternalPaymentPhaseList) CountWithContext(ctx context.Context) (*in
 }
 
 // Count returns the count of items on the server that match this pager
-func (list *ExternalPaymentPhaseList) Count() (*int64, error) {
+func (list *GeneralLedgerAccountList) Count() (*int64, error) {
 	return list.CountWithContext(context.Background())
 }
