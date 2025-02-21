@@ -3,6 +3,9 @@ package recurly
 import (
 	"net/http"
 	"testing"
+	"time"
+
+	"github.com/stretchr/testify/assert"
 )
 
 func TestGetResource200(test *testing.T) {
@@ -321,4 +324,37 @@ func TestInvalidRegionError(test *testing.T) {
 	})
 	t.Assert(err.Error(), "invalid region: invalid-region", "err.Error()")
 
+}
+
+func TestNewClientWithOptions(t *testing.T) {
+	t.Parallel()
+
+	t.Run("with timeout", func(t *testing.T) {
+		t.Parallel()
+
+		client, err := NewClientWithOptions("API_KEY", ClientOptions{
+			Region:  US,
+			Timeout: 10 * time.Second,
+		})
+		assert.NoError(t, err, "new client with options")
+		assert.Equal(t, 10*time.Second, client.HTTPClient.Timeout, "client timeout is taken into account")
+	})
+
+	t.Run("with region and without timeout", func(t *testing.T) {
+		t.Parallel()
+
+		client, err := NewClientWithOptions("API_KEY", ClientOptions{
+			Region: US,
+		})
+		assert.NoError(t, err, "new client with options")
+		assert.Equal(t, time.Minute, client.HTTPClient.Timeout, "client timeout is taken into account")
+	})
+
+	t.Run("without options", func(t *testing.T) {
+		t.Parallel()
+
+		client, err := NewClient("API_KEY")
+		assert.NoError(t, err, "new client with options")
+		assert.Equal(t, time.Minute, client.HTTPClient.Timeout, "default timeout 60s is used if not specified")
+	})
 }

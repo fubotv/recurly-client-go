@@ -1,5 +1,7 @@
 package recurly
 
+import "time"
+
 // Region specific to Recurly
 type region string
 
@@ -12,5 +14,6 @@ const (
 
 // ClientOptions for a new API Client
 type ClientOptions struct {
-	Region region
+	Region  region
+	Timeout time.Duration
 }

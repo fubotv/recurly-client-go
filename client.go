@@ -89,12 +89,25 @@ func NewClientWithOptions(apiKey string, options ClientOptions) (*Client, error)
 		}
 	}
 
-	return &Client{
+	client := Client{
 		apiKey:     apiKey,
 		baseURL:    apiHost,
 		Log:        NewLogger(LevelWarn),
 		HTTPClient: defaultClient,
-	}, nil
+	}
+
+	if options.Timeout > 0 {
+		client.HTTPClient = &http.Client{
+			CheckRedirect: func(req *http.Request, via []*http.Request) error {
+				return http.ErrUseLastResponse // disable redirects
+			},
+			Jar:       nil,
+			Timeout:   options.Timeout,
+			Transport: defaultTransport,
+		}
+	}
+
+	return &client, nil
 }
 
 func validatePathParameters(params []string) error {
